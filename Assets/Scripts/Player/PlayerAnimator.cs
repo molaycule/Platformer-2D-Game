@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-  private Animator anim;
-  private bool isRunning;
-
-  public bool IsRunning
+  public enum AnimationState
   {
-    get { return isRunning; }
+    Idle,
+    Running,
+    Jumping,
+    Falling
+  }
+
+  private Animator anim;
+  private AnimationState state;
+
+  public AnimationState State
+  {
+    get => state;
     set
     {
-      isRunning = value;
-      if (anim != null)
-      {
-        anim.SetBool("isRunning", isRunning);
-      }
+      state = value;
+      anim.SetInteger("state", (int)state);
     }
   }
 

@@ -5,29 +5,52 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
   private PlayerAnimator playerAnimator;
+  private BoxCollider2D boxCollider;
   private Rigidbody2D rb;
   private SpriteRenderer sprite;
+  private float x = 0f;
+  [SerializeField] private LayerMask groundLayer;
   [SerializeField] private float jumpForce = 14f;
   [SerializeField] private float moveSpeed = 7f;
 
   private void Start()
   {
     playerAnimator = GetComponent<PlayerAnimator>();
+    boxCollider = GetComponent<BoxCollider2D>();
     rb = GetComponent<Rigidbody2D>();
     sprite = GetComponent<SpriteRenderer>();
   }
 
   private void Update()
   {
-    float x = Input.GetAxisRaw("Horizontal");
+    x = Input.GetAxisRaw("Horizontal");
     float moveBy = x * moveSpeed;
     rb.velocity = new Vector2(moveBy, rb.velocity.y);
-    playerAnimator.IsRunning = x != 0;
-    sprite.flipX = (x != 0) ? (x < 0) : sprite.flipX;
 
-    if (Input.GetButtonDown("Jump"))
+    if (Input.GetButtonDown("Jump") && IsGrounded())
     {
       rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
+
+    FlipPlayer();
+    UpdateAnimationState();
+  }
+
+  private void FlipPlayer()
+  {
+    sprite.flipX = (x != 0) ? (x < 0) : sprite.flipX;
+  }
+
+  private void UpdateAnimationState()
+  {
+    playerAnimator.State = x != 0 ? PlayerAnimator.AnimationState.Running : PlayerAnimator.AnimationState.Idle;
+
+    if (rb.velocity.y > .1f) playerAnimator.State = PlayerAnimator.AnimationState.Jumping;
+    else if (rb.velocity.y < -.1f) playerAnimator.State = PlayerAnimator.AnimationState.Falling;
+  }
+
+  private bool IsGrounded()
+  {
+    return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, groundLayer);
   }
 }
