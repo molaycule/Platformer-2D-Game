@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
   private Rigidbody2D rb;
   public float jumpForce = 14f;
+  public float moveSpeed = 7f;
 
   // Start is called before the first frame update
   private void Start()
@@ -16,9 +17,13 @@ public class PlayerMovement : MonoBehaviour
   // Update is called once per frame
   private void Update()
   {
-    if (Input.GetKeyDown("space"))
+    float x = Input.GetAxisRaw("Horizontal");
+    float moveBy = x * moveSpeed;
+    rb.velocity = new Vector2(moveBy, rb.velocity.y);
+
+    if (Input.GetButtonDown("Jump"))
     {
-      rb.velocity = Vector2.up * jumpForce;
+      rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
   }
 }
