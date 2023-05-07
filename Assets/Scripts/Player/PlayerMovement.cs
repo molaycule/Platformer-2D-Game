@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
   private void Update()
   {
+    if (rb.bodyType == RigidbodyType2D.Static) return;
+
     x = Input.GetAxisRaw("Horizontal");
     float moveBy = x * moveSpeed;
     rb.velocity = new Vector2(moveBy, rb.velocity.y);
