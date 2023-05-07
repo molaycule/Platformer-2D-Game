@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+  private PlayerAnimator playerAnimator;
   private Rigidbody2D rb;
-  public float jumpForce = 14f;
-  public float moveSpeed = 7f;
+  private SpriteRenderer sprite;
+  [SerializeField] private float jumpForce = 14f;
+  [SerializeField] private float moveSpeed = 7f;
 
-  // Start is called before the first frame update
   private void Start()
   {
+    playerAnimator = GetComponent<PlayerAnimator>();
     rb = GetComponent<Rigidbody2D>();
+    sprite = GetComponent<SpriteRenderer>();
   }
 
-  // Update is called once per frame
   private void Update()
   {
     float x = Input.GetAxisRaw("Horizontal");
     float moveBy = x * moveSpeed;
     rb.velocity = new Vector2(moveBy, rb.velocity.y);
+    playerAnimator.IsRunning = x != 0;
+    sprite.flipX = (x != 0) ? (x < 0) : sprite.flipX;
 
     if (Input.GetButtonDown("Jump"))
     {
