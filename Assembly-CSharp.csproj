@@ -44,6 +44,7 @@
      <Compile Include="Assets\Scripts\Waypoint\WaypointFollower.cs" />
      <Compile Include="Assets\Scripts\Platform\StickyPlatform.cs" />
      <Compile Include="Assets\Scripts\Utils\Rotate.cs" />
+     <Compile Include="Assets\Scripts\Utils\Finish.cs" />
      <None Include="Assets\CasualGameBGM05\ReadMe.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.24f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

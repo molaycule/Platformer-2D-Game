@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     float moveBy = x * moveSpeed;
     rb.velocity = new Vector2(moveBy, rb.velocity.y);
 
-    if (Input.GetButtonDown("Jump") && IsGrounded())
+    if (Input.GetButtonDown("Jump") && IsGrounded)
     {
       jumpSoundEffect.Play();
       rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -53,8 +53,8 @@ public class PlayerMovement : MonoBehaviour
     else if (rb.velocity.y < -.1f) playerAnimator.State = PlayerAnimator.AnimationState.Falling;
   }
 
-  private bool IsGrounded()
+  public bool IsGrounded
   {
-    return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, groundLayer);
+    get => Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, groundLayer);
   }
 }
